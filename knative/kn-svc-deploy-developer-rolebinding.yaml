@@ -1,0 +1,25 @@
+# Grant User 'developer' the permission to
+# manage Knative services.
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kn-svc-deployer
+rules:
+  - apiGroups: ["serving.knative.dev"]
+    resources: ["services", "revisions", "routes"]
+    verbs: ["get", "list", "create", "update", "delete", "patch", "watch"]
+---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: kn-svc-deploy-developer-rolebinding
+subjects:
+- kind: User
+  name: developer
+  namespace: cloudi
+roleRef:
+  kind: Role
+  name: kn-svc-deployer
+  apiGroup: rbac.authorization.k8s.io
