@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: prod-build-pipeline-run
+  name: prod-build-pipeline-run
+  labels:
+    tekton.dev/pipeline: prod-build-pipeline 
+spec:
+  serviceAccountName: pipeline
+  pipelineRef:
+    name: prod-build-pipeline
+  params:
+    - name: context-dir
+      value: app/build
+    - name: github-repo-url
+      value: https://github.com/geekmee/cloudi
+    - name: github-repo-revision
+      value: main
+  workspaces:
+    - name: maven-settings
+      configmap:
+        name: maven-settings
+    - name: source
+      persistentVolumeClaim:
+        claimName: prod-build-sources

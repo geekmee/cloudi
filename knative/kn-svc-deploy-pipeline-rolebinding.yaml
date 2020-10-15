@@ -1,0 +1,26 @@
+# Bind ServiceAccount named pipeline that has permission to Role kn-svc-deployer
+# manage Knative services.
+
+#kind: Role
+#apiVersion: rbac.authorization.k8s.io/v1
+#metadata:
+#  name: kn-deployer
+#rules:
+#  - apiGroups: ["serving.knative.dev"]
+#    resources: ["services", "revisions", "routes"]
+#    verbs: ["get", "list", "create", "update", "delete", "patch", "watch"]
+#---
+
+apiVersion: rbac.authorization.k8s.io/v1beta1
+#kind: ClusterRoleBinding
+kind: RoleBinding
+metadata:
+  name: kn-deployer-pipeline-binding
+subjects:
+- kind: ServiceAccount
+  name: pipeline
+  namespace: cloudi
+roleRef:
+  kind: ClusterRole
+  name: kn-svc-deployer
+  apiGroup: rbac.authorization.k8s.io

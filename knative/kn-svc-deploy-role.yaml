@@ -1,0 +1,10 @@
+# Role to manage Knative services.
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: kn-svc-deployer
+rules:
+  - apiGroups: ["serving.knative.dev"]
+    resources: ["services", "revisions", "routes"]
+    verbs: ["get", "list", "create", "update", "delete", "patch", "watch"]
